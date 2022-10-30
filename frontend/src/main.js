@@ -1,12 +1,11 @@
 import { createApp } from 'vue'
-import App from '@/App.vue'
+import App from '@/BaseTheme.vue'
 import router from '@/router'
 import store from '@/store'
 import VueSweetalert2 from "vue-sweetalert2";
 import Swal from "sweetalert2/dist/sweetalert2.js"; //importado javascript da biblioteca base
 import "sweetalert2/dist/sweetalert2.min.css"; //configura css
 import "./styles/index";
-require('./config/axiosConfig');
 
 var Vue = createApp(App);
 

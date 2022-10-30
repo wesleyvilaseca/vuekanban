@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import MarcasView from "@/views/brands/MarcasView";
 import AddMarcaView from "@/views/brands/AddMarcaView";
 
@@ -13,38 +12,42 @@ import AddOptions from "@/views/options/AddOptions";
 import EditOptions from "@/views/options/EditOptions";
 import kanbanView from "@/views/kanban/KanbanView";
 import DashboardView from "@/views/dashboard/DashBoardView";
+import LoginView from "@/views/auth/Login/LoginView";
+
 
 import store from "@/store/index";
 
 const routes = [
-  // Home
   {
     path: '/',
-    name: 'home',
+    name: 'login',
     meta: {
-      title: "Home - " + store.state.nameSite
+      title: "Login"
     },
-    component: HomeView
+    component: LoginView
   },
-
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    meta: {
-      title: 'Dashboard'
-    },
-    component: DashboardView
+    path: '/',
+    component: () => import("../../src/AdminTheme.vue"),
+    children: [
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        meta: {
+          title: 'Dashboard'
+        },
+        component: DashboardView
+      },
+      {
+        path: '/kanban',
+        name: 'kanban',
+        meta: {
+          title: 'Kanban'
+        },
+        component: kanbanView
+      },
+    ]
   },
-
-  {
-    path: '/kanban',
-    name: 'kanban',
-    meta: {
-      title: 'Kanban'
-    },
-    component: kanbanView
-  },
-
   // Marcas
   {
     path: '/marcas',

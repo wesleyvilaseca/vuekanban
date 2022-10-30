@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\BoardController;
 use App\Http\Controllers\Api\BrandsController;
 use App\Http\Controllers\Api\CardController;
@@ -14,16 +15,23 @@ Route::group([
     'namespace' => 'Api'
 ], function () {
 
-    /**
-     * board
-     */
+    Route::post('/auth/register', [RegisterController::class, 'store']);
+    Route::post('/auth/token', [AuthController::class, 'auth']);
+    
+    Route::group([
+        'middleware' => ['auth:sanctum']
+    ], function () {
+        /**
+         * board
+         */
 
-    Route::get('/board', [BoardController::class, 'getByProject']);
+        Route::get('/board', [BoardController::class, 'getByProject']);
 
-    /**
-     * cards
-     */
-    Route::post('/card/{id}/edit', [CardController::class, 'update']);
+        /**
+         * cards
+         */
+        Route::post('/card/{id}/edit', [CardController::class, 'update']);
+    });
 
     /**
      * brands routes
@@ -47,7 +55,7 @@ Route::group([
     Route::post('/options/{id}/remove', [OptionController::class, 'delete']);
 
 
-     /**
+    /**
      * product options
      */
 
