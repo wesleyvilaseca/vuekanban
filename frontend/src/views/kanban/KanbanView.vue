@@ -1,32 +1,104 @@
 <template>
-  <div class="row flex-row flex-sm-nowrap py-3">
-    <div
-      class="col-sm-6 col-md-4 col-xl-3"
-      v-for="(board, index) in boards"
-      :key="index"
-    >
-      <div class="card bg-light">
-        <div class="card-body card-body-atv">
-          <h2 class="lane-title">{{ board.title }}</h2>
-          <Container
-            group-name="trello"
-            @drag-start="handleDragStart(index, $event)"
-            @drop="handleDrop(index, $event)"
-            :get-child-payload="getChildPayload"
-          >
-            <Draggable v-for="(card, index) in board.cards" :key="index">
-              <CardComponent class="mt-2" :title="card.title" :subtitle="''">
-                <template v-slot:body> {{ card.description }} </template>
-                <template v-slot:footer>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
-                </template>
-              </CardComponent>
-            </Draggable>
-          </Container>
+  <div>
+    <div class="top">
+      <button
+        class="btn btn-sm btn-outline-info mr-2"
+        @click.prevent="modalCard(true)"
+      >
+        Criar atividade
+      </button>
+      <button
+        class="btn btn-sm btn-outline-dark"
+        @click.prevent="modalBoard(true)"
+      >
+        Criar board
+      </button>
+    </div>
+
+    <div class="row flex-row flex-sm-nowrap py-3">
+      <div
+        class="col-sm-6 col-md-4 col-xl-3"
+        v-for="(board, index) in boards"
+        :key="index"
+      >
+        <div class="card bg-light">
+          <div class="card-body card-body-atv">
+            <h2 class="lane-title">{{ board.title }}</h2>
+            <Container
+              group-name="trello"
+              @drag-start="handleDragStart(index, $event)"
+              @drop="handleDrop(index, $event)"
+              :get-child-payload="getChildPayload"
+            >
+              <Draggable v-for="(card, index) in board.cards" :key="index">
+                <CardComponent class="mt-2" :title="card.title" :subtitle="''">
+                  <template v-slot:body> {{ card.description }} </template>
+                  <template v-slot:footer>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </template>
+                </CardComponent>
+              </Draggable>
+            </Container>
+          </div>
         </div>
       </div>
     </div>
+
+    <Modal
+      v-show="isModalCardVisible"
+      title="Projeto"
+      @close="modalCard(false)"
+    >
+      <template v-slot:content>
+        <div class="form-group">
+          <label>Título da atividade</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="card.title"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <input type="text" class="form-control" v-model="card.description" />
+        </div>
+
+        <div class="form-group mt-4">
+          <button class="btn btn-primary" @click="processaFormAtividade()">
+            <span v-if="isLoading"> Salvando... </span>
+            <span v-else> Salvar </span>
+          </button>
+        </div>
+      </template>
+    </Modal>
+
+    <Modal
+      v-show="isModalBoardVisible"
+      title="Projeto"
+      @close="modalBoard(false)"
+    >
+      <template v-slot:content>
+        <div class="form-group">
+          <label>Título do board</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="card.title"
+            required
+          />
+        </div>
+
+        <div class="form-group mt-4">
+          <button class="btn btn-primary" @click="processaForm()">
+            <span v-if="isLoading"> Salvando... </span>
+            <span v-else> Salvar </span>
+          </button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -35,13 +107,19 @@
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { mapActions, mapState } from "vuex";
 import CardComponent from "@/components/card/CardComponent";
+import Modal from "@/components/template/Modal";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "KanbanView",
-  components: { Container, CardComponent, Draggable },
+  components: { Container, CardComponent, Draggable, Modal },
   data: () => ({
+    isModalCardVisible: false,
+    isModalBoardVisible: false,
     projectId: "",
+    boardForm: {
+      title: "",
+    },
     card: {
       id: "",
       board_id: "",
@@ -56,7 +134,24 @@ export default {
     },
   }),
   methods: {
-    ...mapActions(["getBoard", "updateCard"]),
+    ...mapActions(["getBoard", "updateCard", "createAtv"]),
+    modalCard(open) {
+      this.isModalCardVisible = open;
+      if (!open) this.clearCard();
+    },
+
+    modalBoard(open) {
+      this.isModalBoardVisible = open;
+      if (!open) this.clearBoard();
+    },
+
+    processaFormAtividade() {
+      this.card.project_id = this.projectId;
+      this.createAtv(this.card).then((res) => {
+        this.clearCard();
+        this.modalCard(false);
+      });
+    },
     add() {
       if (this.newTask) {
         this.arrBacklog.push({ name: this.newTask });
@@ -113,7 +208,6 @@ export default {
           .catch((err) => console.log("error", err));
       }
     },
-
     clearCard() {
       this.card = {
         id: "",
@@ -121,6 +215,12 @@ export default {
         index: "",
         title: "",
         description: "",
+      };
+    },
+
+    clearBoard() {
+      this.boardForm = {
+        title: "",
       };
     },
 

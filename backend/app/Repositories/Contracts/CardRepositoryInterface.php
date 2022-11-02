@@ -10,4 +10,5 @@ interface CardRepositoryInterface
     public function deleteByBoardId(int $id);
     public function delete(int $id);
     public function getCardsByBoardId(int $id);
+    public function store(array $data);
 }

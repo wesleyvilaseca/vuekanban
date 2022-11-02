@@ -40,6 +40,7 @@ Route::group([
         /**
          * cards
          */
+        Route::post('/card', [CardController::class, 'store']);
         Route::post('/card/{id}/edit', [CardController::class, 'update']);
     });
 

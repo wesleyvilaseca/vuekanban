@@ -15,7 +15,17 @@ const actions = {
             .catch(error => {
                 console.log(error);
             });
-    }
+    },
+
+    createAtv({ dispatch }, obj) {
+        return HttpAuth.post('card', obj)
+            .then(res => {
+                dispatch('getBoard', obj.project_id)
+            })
+            .catch(error => {
+                this.Toast.fire(error.message, "", "error");
+            })
+    },
 }
 
 export default actions;

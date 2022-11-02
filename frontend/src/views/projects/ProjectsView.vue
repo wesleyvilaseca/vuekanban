@@ -22,7 +22,7 @@
     <Modal v-show="isModalVisible" title="Projeto" @close="modal(false)">
       <template v-slot:content>
         <div class="form-group">
-          <label>Título da projeto</label>
+          <label>Título da atividade</label>
           <input
             type="text"
             class="form-control"
@@ -132,15 +132,10 @@ export default {
         return;
       }
 
-      
-
       this.updateProject({form: this.formData, id: this.projectId}).then((res) => {
         this.isModalVisible = false;
         this.clearForm();
       });
-    },
-
-    modal(open) {
       this.isModalVisible = open;
       if (!open) this.clearForm();
     },

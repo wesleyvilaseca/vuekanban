@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCard;
 use App\Services\CardService;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -14,6 +15,18 @@ class CardController extends Controller
     public function __construct(CardService $cardService)
     {
         $this->cardService = $cardService;
+    }
+
+    public function store(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'title'      => ['required'],
+            'project_id' => ['required'],
+        ]);
+
+        if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
+
+        return $this->cardService->store($request->all());
     }
 
     public function update(StoreUpdateCard $request, $id)

@@ -39,4 +39,9 @@ class CardRepository implements CardRepositoryInterface
     {
         return $this->entity->where('board_id', $id)->get();
     }
+
+    public function store(array $data)
+    {
+        return $this->entity->create($data);
+    }
 }
