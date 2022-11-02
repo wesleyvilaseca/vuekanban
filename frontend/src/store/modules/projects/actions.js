@@ -18,15 +18,15 @@ const actions = {
     },
 
     // Deleta um produto
-    deleteProject({ dispatch }, id) {
-        return HttpAuth.post(`/project/${id}/delete`)
+    async deleteProject({ dispatch }, id) {
+        return await HttpAuth.post(`/project/${id}/delete`)
             .then((res) => {
                 dispatch('getProjects')
                 // eslint-disable-next-line no-undef
                 Toast.fire(`O projeto foi apagado com sucesso.`, "", "success");
                 return true;
             })
-            .catch(function (error) {
+            .catch(error => {
                 // eslint-disable-next-line no-undef
                 Toast.fire(error.message, "", "error");
             })
@@ -41,31 +41,23 @@ const actions = {
                 dispatch('getProjects')
                 return true;
             })
-            .catch(function (error) {
+            .catch(error => {
                 // eslint-disable-next-line no-undef
                 Toast.fire(error.message, "", "error");
             })
     },
 
     // Responsável por alterar os dados de um produto
-    updateProject({ commit }, { obj, form }) {
+    updateProject({ dispatch }, { form, id }) {
         // Processa a api
-        return fetch(this.state.apiURL + "products/" + obj.id + "/edit", { method: "POST", body: form })
-            .then(function (response) {
-                if (response.ok) {
-                    // Altera na listagem
-                    commit("updateProductMutation", obj);
-
-                    // eslint-disable-next-line no-undef
-                    Toast.fire(`O produto foi alterado com sucesso.`, "", "success");
-                    return true;
-                } else {
-                    // eslint-disable-next-line no-undef
-                    Toast.fire("Ocorreu um erro ao tentar alterar o produto.", "", "error");
-                    return false;
-                }
+        return HttpAuth.post(`project/${id}/edit`, form)
+            .then(res => {
+                // eslint-disable-next-line no-undef
+                Toast.fire(`O projeto foi alterado com sucesso.`, "", "success");
+                dispatch('getProjects');
+                return true;
             })
-            .catch(function (error) {
+            .catch(error => {
                 // eslint-disable-next-line no-undef
                 Toast.fire(error.message, "", "error");
             })

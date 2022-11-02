@@ -28,6 +28,11 @@ class ProjectController extends Controller
         return $this->projectService->store($request->all());
     }
 
+    public function update(storeUpdateProject $request, $id)
+    {
+        return $this->projectService->update((int) $id, $request->all());
+    }
+
     public function delete($id)
     {
         return $this->projectService->delete($id);

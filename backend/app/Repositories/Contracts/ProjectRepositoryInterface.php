@@ -9,4 +9,5 @@ interface ProjectRepositoryInterface
     public function getAll(int $per_page);
     public function store(array $data);
     public function delete(int $id);
+    public function update(int $id, array $data);
 }

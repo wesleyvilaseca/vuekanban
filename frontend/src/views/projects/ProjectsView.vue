@@ -89,9 +89,18 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["getProjects", "storeProject", "deleteProject"]),
+    ...mapActions([
+      "getProjects",
+      "storeProject",
+      "deleteProject",
+      "updateProject",
+    ]),
+
     edit(item) {
-      console.log(item);
+      this.modal(true);
+      this.formData.name = item.name;
+      this.formData.description = item.description;
+      this.projectId = item.id;
     },
 
     delet(item) {
@@ -100,7 +109,10 @@ export default {
           `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`
         )
       ) {
-        this.deleteProject(item.id);
+        this.deleteProject(item.id).then(() => {
+          this.clearForm();
+          // this.modal(false);
+        });
       }
     },
 
@@ -112,21 +124,33 @@ export default {
     },
 
     processaForm() {
-      this.storeProject(this.formData).then((res) => {
+      if (!this.projectId) {
+        this.storeProject(this.formData).then((res) => {
+          this.isModalVisible = false;
+          this.clearForm();
+        });
+        return;
+      }
+
+      
+
+      this.updateProject({form: this.formData, id: this.projectId}).then((res) => {
         this.isModalVisible = false;
+        this.clearForm();
       });
     },
 
     modal(open) {
       this.isModalVisible = open;
+      if (!open) this.clearForm();
     },
 
     clearForm() {
       this.formData = {
-        id: "",
         title: "",
         description: "",
       };
+      this.projectId = "";
     },
   },
 };

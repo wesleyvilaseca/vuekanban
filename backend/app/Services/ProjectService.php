@@ -48,6 +48,17 @@ class ProjectService
         }
     }
 
+    public function update(int $id, array $data)
+    {
+        $project = $this->get($id);
+        if (!$project) return response()->json(['error' => 'projeto não localizado', 'data' => $id], 400);
+
+        $res = $this->repository->update($id, $data);
+        if (!$res) return response()->json(['error' => 'erro ao editar o projeto'], 400);
+
+        return response()->json(['msg' => 'projeto editado com sucesso'], 200);
+    }
+
     public function delete(int $id)
     {
         $project = $this->get($id);

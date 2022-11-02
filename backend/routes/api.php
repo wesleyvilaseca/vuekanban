@@ -28,6 +28,7 @@ Route::group([
 
         Route::get('/projects', [ProjectController::class, 'index']);
         Route::post('/project', [ProjectController::class, 'store']);
+        Route::post('/project/{id}/edit', [ProjectController::class, 'update']);
         Route::post('/project/{id}/delete', [ProjectController::class, 'delete']);
 
         /**

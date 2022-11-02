@@ -34,4 +34,9 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return $this->entity->where('id', $id)->delete();
     }
+
+    public function update(int $id, array $data)
+    {
+        return $this->entity->where('id', $id)->update($data);
+    }
 }
