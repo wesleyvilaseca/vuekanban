@@ -34,7 +34,7 @@ Route::group([
         /**
          * board
          */
-
+        Route::post('/board', [BoardController::class, 'store']);
         Route::get('/board/{id}', [BoardController::class, 'getByProject']);
 
         /**

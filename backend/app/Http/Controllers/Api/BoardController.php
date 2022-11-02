@@ -19,6 +19,11 @@ class BoardController extends Controller
         $this->projectService = $projectService;
     }
 
+    public function store(Request $request)
+    {
+        return $this->boardService->store($request);
+    }
+
     public function getByProject(Request $request, $id)
     {
         $project = $this->projectService->get($id);

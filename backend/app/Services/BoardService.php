@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Contracts\BoardRepositoryInterface;
+use Illuminate\Support\Facades\Validator;
 
 class BoardService
 {
@@ -26,9 +27,16 @@ class BoardService
         return $this->repository->getBoardsByProjectId($id);
     }
 
-    public function store(array $data)
+    public function store($request)
     {
-        return $this->repository->store($data);
+        $validate = Validator::make($request->all(), [
+            'title'      => ['required'],
+            'project_id' => ['required'],
+        ]);
+
+        if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
+
+        return $this->repository->store($request->all());
     }
 
     public function delete(int $id)

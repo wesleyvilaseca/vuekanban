@@ -22,6 +22,11 @@
         :key="index"
       >
         <div class="card bg-light">
+          <div class="text-right float">
+            <span class="btn btn-sm btn-outline-danger rounded-circle">
+              <i class="fas fa-trash"></i>
+            </span>
+          </div>
           <div class="card-body card-body-atv">
             <h2 class="lane-title">{{ board.title }}</h2>
             <Container
