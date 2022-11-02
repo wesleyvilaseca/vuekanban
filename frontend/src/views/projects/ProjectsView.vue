@@ -119,7 +119,7 @@ export default {
     access(item) {
       return this.$router.push({
         name: "kanban.project",
-        params: { id: item.id },
+        params: { projectid: item.id },
       });
     },
 
