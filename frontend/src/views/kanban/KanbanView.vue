@@ -41,6 +41,7 @@ export default {
   name: "KanbanView",
   components: { Container, CardComponent, Draggable },
   data: () => ({
+    projectId: "",
     card: {
       id: "",
       board_id: "",
@@ -135,7 +136,9 @@ export default {
     }),
   },
   mounted() {
-    this.getBoard().catch((err) => {
+    console.log();
+    this.projectId = this.$route.params.projectid;
+    this.getBoard(this.projectId).catch((err) => {
       // this.Toast.fire("Ocorreu um erro ao listar os produtos.", "", "error");
       console.log("error", err);
     });

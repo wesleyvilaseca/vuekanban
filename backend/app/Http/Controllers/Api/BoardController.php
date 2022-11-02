@@ -19,9 +19,8 @@ class BoardController extends Controller
         $this->projectService = $projectService;
     }
 
-    public function getByProject(Request $request)
+    public function getByProject(Request $request, $id)
     {
-        $id = 1;
         $project = $this->projectService->get($id);
         if (!$project) {
             return response()->json(['message' => 'Brand Not Found'], 404);

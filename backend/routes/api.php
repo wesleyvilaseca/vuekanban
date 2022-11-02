@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OptionController;
 use App\Http\Controllers\Api\OptionValueDescriptionController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductOptionController;
+use App\Http\Controllers\Api\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -17,15 +18,20 @@ Route::group([
 
     Route::post('/auth/register', [RegisterController::class, 'store']);
     Route::post('/auth/token', [AuthController::class, 'auth']);
-    
+
     Route::group([
         'middleware' => ['auth:sanctum']
     ], function () {
         /**
+         * projects
+         */
+
+        Route::get('/projects', [ProjectController::class, 'index']);
+        /**
          * board
          */
 
-        Route::get('/board', [BoardController::class, 'getByProject']);
+        Route::get('/board/{id}', [BoardController::class, 'getByProject']);
 
         /**
          * cards

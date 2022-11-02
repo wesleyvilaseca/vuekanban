@@ -13,6 +13,7 @@ import EditOptions from "@/views/options/EditOptions";
 import kanbanView from "@/views/kanban/KanbanView";
 import DashboardView from "@/views/dashboard/DashBoardView";
 import LoginView from "@/views/auth/Login/LoginView";
+import ProjectsView from "@/views/projects/ProjectsView";
 
 
 import store from "@/store/index";
@@ -41,6 +42,14 @@ const routes = [
       {
         path: '/kanban',
         name: 'kanban',
+        meta: {
+          title: 'projects'
+        },
+        component: ProjectsView
+      },
+      {
+        path: '/kanban/:projectid',
+        name: 'kanban.project',
         meta: {
           title: 'Kanban'
         },

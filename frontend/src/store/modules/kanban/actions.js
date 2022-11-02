@@ -1,10 +1,10 @@
-import axios from "axios";
+import { HttpAuth } from "@/config/axiosConfig";
 
 const actions = {
-    getBoard({ commit }) {
-        return axios.get("board")
+    getBoard({ commit }, projectid) {
+        return HttpAuth.get(`board/${projectid}`)
             .then(res => {
-                commit("setBoard", res.data.data)
+                commit("SET_BOARD", res.data.data)
             })
     },
 }

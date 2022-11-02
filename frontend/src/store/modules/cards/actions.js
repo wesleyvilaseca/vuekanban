@@ -1,11 +1,11 @@
-import axios from "axios";
+import { HttpAuth } from "@/config/axiosConfig";
 
 const actions = {
     updateCard({ commit }, obj) {
         // Processa a api
         const endpoint = `card/${obj.id}/edit`;
 
-        return axios.post(endpoint, obj)
+        return HttpAuth.post(endpoint, obj)
             .then(res => {
                 if (res.ok) {
                     commit('');

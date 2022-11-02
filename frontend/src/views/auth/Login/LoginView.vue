@@ -29,7 +29,8 @@
                 v-model="formData.password"
                 v-bind:class="{
                   'form-control': true,
-                  'is-invalid': !validPassword(formData.password) && passwordBlured,
+                  'is-invalid':
+                    !validPassword(formData.password) && passwordBlured,
                 }"
                 v-on:blur="passwordBlured = true"
               />
@@ -56,7 +57,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import "./style.css";
 
 export default {
   data: () => ({
@@ -98,7 +98,6 @@ export default {
         return true;
       }
     },
-
     submit() {
       this.validate();
       if (this.valid) this.auth();
@@ -107,21 +106,22 @@ export default {
       this.reset();
       this.loading = true;
       this.login(this.formData)
-        .then((res) => {
-          console.log(res);
-          this.getMe();
+        .then(() => {
+          // this.getMe();
+          console.log("aqui");
+          return this.$router.push("/kanban");
         })
         .catch((error) => {
           const errorResponse = error.response;
+
+          console.log(error);
+
           if (errorResponse.status === 422) {
             this.errors = Object.assign(this.errors, errorResponse.data.errors);
-            this.$vToastify.error(
-              "Dados inválidos, verifique novamente",
-              "Erro"
-            );
-            return;
+            return alert("Dados inválidos, verifique novamente");
           }
-          this.$vToastify.error("Falha na operação", "Erro");
+
+          alert("Falha na operação", "Erro");
           setTimeout(() => this.reset(), 4000);
         })
         .finally(() => {
@@ -134,3 +134,51 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+body {
+  background: #000;
+}
+
+.card {
+  border: none;
+  height: 320px;
+}
+
+.forms-inputs {
+  position: relative;
+}
+
+.forms-inputs span {
+  position: absolute;
+  top: -18px;
+  left: 10px;
+  background-color: #fff;
+  padding: 5px 10px;
+  font-size: 15px;
+}
+
+.forms-inputs input {
+  height: 50px;
+  border: 2px solid #eee;
+}
+
+.forms-inputs input:focus {
+  box-shadow: none;
+  outline: none;
+  border: 2px solid #000;
+}
+
+.btn {
+  height: 50px;
+}
+
+.success-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.bxs-badge-check {
+  font-size: 90px;
+}
+</style>

@@ -78,10 +78,10 @@ export default {
 
 /* Modal Content/Box */
 .modalVue .modal-content {
-  background-color: #222437;
+  /* background-color: #222437; */
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #171717;
+  /* border: 1px solid #171717; */
   width: 80%; /* Could be more or less, depending on screen size */
 }
 

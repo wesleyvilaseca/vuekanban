@@ -40,13 +40,11 @@ export default {
         // },
 
         login({ commit }, params) {
-            console.log(params);
             return Http.post('auth/token', params)
                 .then((res) => {
-                    // const token = res.data.token;
-                    // localStorage.setItem(TOKEN_NAME, token);
+                    const token = res.data.token;
+                    localStorage.setItem(TOKEN_NAME, token);
                     commit('');
-                    console.log(res);
                 })
         },
 
@@ -55,11 +53,7 @@ export default {
 
             if (!token) return;
 
-            return HttpAuth.get('auth/me', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            return HttpAuth.get('auth/me')
                 .then((res) => {
                     commit('SET_ME', res.data.data)
                 })

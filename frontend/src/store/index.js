@@ -5,6 +5,7 @@ import products from './modules/products';
 import kanban from './modules/kanban';
 import cards from './modules/cards';
 import auth from './modules/auth';
+import projects from './modules/projects';
 
 import { state } from './default';
 
@@ -16,7 +17,8 @@ export default createStore({
         products,
         kanban,
         cards,
-        auth
+        auth,
+        projects
     },
     state
 })

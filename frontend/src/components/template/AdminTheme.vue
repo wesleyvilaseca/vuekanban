@@ -24,37 +24,21 @@
         <div class="sidebar-menu">
           <ul>
             <li class="menu-itens">
-              <a href="#">
+              <router-link :to="{ name: 'kanban' }" class="navbar-brand">
                 <i class="fa fa-book"></i>
-                <span>Documentation</span>
-                <span class="badge badge-pill badge-primary">Beta</span>
-              </a>
-            </li>
-            <li class="menu-itens">
-              <a href="#">
-                <i class="fa fa-calendar"></i>
-                <span>Calendar</span>
-              </a>
-            </li>
-            <li class="menu-itens">
-              <a href="#">
-                <i class="fa fa-folder"></i>
-                <span>Examples</span>
-              </a>
+                <span>Projetos</span>
+              </router-link>
             </li>
           </ul>
         </div>
-        
       </div>
     </nav>
 
-    <main class="page-content">
+    <div class="page-content">
       <div class="container-fluid">
-        <!-- <h2>DashBoard</h2> -->
-        <hr />
         <slot name="body" />
       </div>
-    </main>
+    </div>
   </div>
 </template>
 

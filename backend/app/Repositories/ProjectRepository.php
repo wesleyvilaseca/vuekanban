@@ -15,6 +15,11 @@ class ProjectRepository implements ProjectRepositoryInterface
         $this->entity = $project;
     }
 
+    public function getAll(int $per_page)
+    {
+        return $this->entity->paginate($per_page);
+    }
+
     public function get(int $id)
     {
         return $this->entity->find($id);
