@@ -24,4 +24,14 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return $this->entity->find($id);
     }
+
+    public function store(array $data)
+    {
+        return $this->entity->create($data);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->entity->where('id', $id)->delete();
+    }
 }

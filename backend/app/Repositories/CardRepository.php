@@ -24,4 +24,19 @@ class CardRepository implements CardRepositoryInterface
     {
         return $this->entity->where('id', $id)->update($data);
     }
+
+    public function delete(int $id)
+    {
+        return $this->entity->where('id', $id)->delete();
+    }
+
+    public function deleteByBoardId(int $id)
+    {
+        return $this->entity->where('board_id', $id)->delete();
+    }
+
+    public function getCardsByBoardId(int $id)
+    {
+        return $this->entity->where('board_id', $id)->get();
+    }
 }

@@ -20,7 +20,33 @@
     />
 
     <Modal v-show="isModalVisible" title="Projeto" @close="modal(false)">
-      <template v-slot:content> form </template>
+      <template v-slot:content>
+        <div class="form-group">
+          <label>Título da projeto</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="formData.name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="formData.description"
+          />
+        </div>
+
+        <div class="form-group mt-4">
+          <button class="btn btn-primary" @click="processaForm()">
+            <span v-if="isLoading"> Salvando... </span>
+            <span v-else> Salvar </span>
+          </button>
+        </div>
+      </template>
     </Modal>
   </div>
 </template>
@@ -37,7 +63,13 @@ export default {
   name: "Projects",
   components: { TableComponent, Modal /* PaginateTable */ },
   data: () => ({
+    isLoading: false,
     isModalVisible: false,
+    projectId: "",
+    formData: {
+      name: "",
+      description: "",
+    },
     config: [
       {
         key: "name",
@@ -57,13 +89,19 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["getProjects"]),
+    ...mapActions(["getProjects", "storeProject", "deleteProject"]),
     edit(item) {
       console.log(item);
     },
 
     delet(item) {
-      console.log(item);
+      if (
+        confirm(
+          `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`
+        )
+      ) {
+        this.deleteProject(item.id);
+      }
     },
 
     access(item) {
@@ -73,10 +111,22 @@ export default {
       });
     },
 
-    newProject() {},
+    processaForm() {
+      this.storeProject(this.formData).then((res) => {
+        this.isModalVisible = false;
+      });
+    },
 
     modal(open) {
       this.isModalVisible = open;
+    },
+
+    clearForm() {
+      this.formData = {
+        id: "",
+        title: "",
+        description: "",
+      };
     },
   },
 };

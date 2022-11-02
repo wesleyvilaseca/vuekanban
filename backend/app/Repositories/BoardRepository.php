@@ -19,4 +19,24 @@ class BoardRepository implements BoardRepositoryInterface
     {
         return $this->entity->where('project_id', $id)->get();
     }
+
+    public function store(array $data)
+    {
+        return $this->entity->create($data);
+    }
+
+    public function deleteByProjectId(int $id)
+    {
+        return $this->entity->where('project_id', $id)->delete();
+    }
+
+    public function delete(int $id)
+    {
+        return $this->entity->where('id', $id)->delete();
+    }
+
+    public function getById(int $id)
+    {
+        return $this->entity->find($id);
+    }
 }

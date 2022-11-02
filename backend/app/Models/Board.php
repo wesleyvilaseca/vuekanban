@@ -9,6 +9,9 @@ class Board extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = ['title', 'project_id'];
+
     public function cards()
     {
         return $this->hasMany(Card::class)->orderBy('index', 'ASC');

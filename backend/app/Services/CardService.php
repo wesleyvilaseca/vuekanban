@@ -19,6 +19,11 @@ class CardService
         return $this->repository->getById($id);
     }
 
+    public function getCardsByBoardId(int $id)
+    {
+        return $this->repository->getCardsByBoardId($id);
+    }
+
     public function updateCard(int $id, $data)
     {
         $card = $this->getById($id);
@@ -31,5 +36,15 @@ class CardService
         return response()->json([
             'updated' => true,
         ])->setStatusCode(202);
+    }
+
+    public function deleteByBoardId(int $id)
+    {
+        return $this->repository->deleteByBoardId($id);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->repository->delete($id);
     }
 }
