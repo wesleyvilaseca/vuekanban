@@ -86,13 +86,13 @@
           <input
             type="text"
             class="form-control"
-            v-model="card.title"
+            v-model="boardForm.title"
             required
           />
         </div>
 
         <div class="form-group mt-4">
-          <button class="btn btn-primary" @click="processaForm()">
+          <button class="btn btn-primary" @click="processaFormBoard()">
             <span v-if="isLoading"> Salvando... </span>
             <span v-else> Salvar </span>
           </button>
@@ -134,7 +134,7 @@ export default {
     },
   }),
   methods: {
-    ...mapActions(["getBoard", "updateCard", "createAtv"]),
+    ...mapActions(["getBoard", "updateCard", "createAtv", "storeBoard"]),
     modalCard(open) {
       this.isModalCardVisible = open;
       if (!open) this.clearCard();
@@ -143,6 +143,14 @@ export default {
     modalBoard(open) {
       this.isModalBoardVisible = open;
       if (!open) this.clearBoard();
+    },
+
+    processaFormBoard() {
+      this.boardForm.project_id = this.projectId;
+      this.storeBoard(this.boardForm).then((res) => {
+        this.clearBoard();
+        this.modalBoard(false);
+      });
     },
 
     processaFormAtividade() {
