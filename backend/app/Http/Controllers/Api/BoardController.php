@@ -7,6 +7,7 @@ use App\Http\Resources\BoardResource;
 use Illuminate\Http\Request;
 use App\Services\BoardService;
 use App\Services\ProjectService;
+use Illuminate\Support\Facades\Validator;
 
 class BoardController extends Controller
 {
@@ -21,7 +22,14 @@ class BoardController extends Controller
 
     public function store(Request $request)
     {
-        return $this->boardService->store($request);
+        $validate = Validator::make($request->all(), [
+            'title'      => ['required'],
+            'project_id' => ['required'],
+        ]);
+
+        if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
+
+        return $this->boardService->store($request->all());
     }
 
     public function getByProject(Request $request, $id)

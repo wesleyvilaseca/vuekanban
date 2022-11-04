@@ -1,10 +1,10 @@
 <template>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{{ title }}</h5>
+  <div class="card" style="border: none;">
+    <div class="card-body shadowCard">
+      <h5 class="tituloBoard card-title">{{ title }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ subtitle }}</h6>
       <p class="card-text">
-        <slot name="body" />
+        <slot name="body"></slot>
       </p>
       <slot name="footer" />
     </div>

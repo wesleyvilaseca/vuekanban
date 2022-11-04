@@ -1,42 +1,79 @@
 <template>
-  <div class="container-fluid">
-    <div class="contatiner d-flex justify-content-between">
-      <h4>Projetos</h4>
-      <button class="btn btn-sm btn-primary" @click="modal(true)">
-        Adicionar
-      </button>
+  <div class="container-fluid" style="margin-top: 22px;">
+    <div class="row">
+      <div class="col-md-5">
+        <h4 class="tituloItem">Projetos</h4>
+        <TableComponent
+            v-if="projects"
+            :data="projects"
+            :config="config"
+            :isEdit="true"
+            :isDelet="true"
+            :isAccess="true"
+            :deletemethod="delet"
+            :editmethod="edit"
+            :accessmethod="access"
+        />
+      </div>
+
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-top: 0px; padding-top: 0px;"
+                class="tituloItem">
+              Adicionar novo projeto
+            </h4>
+
+            <div class="form-group">
+              <label>Título da atividade</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  v-model="formData.name"
+                  required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Descrição</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  v-model="formData.description"
+              />
+            </div>
+
+            <div class="form-group mt-4">
+              <button class="btn btn-primary" @click="processaForm()">
+                <span v-if="isLoading"> Salvando... </span>
+                <span v-else> Salvar </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <TableComponent
-      v-if="projects"
-      :data="projects"
-      :config="config"
-      :isEdit="true"
-      :isDelet="true"
-      :isAccess="true"
-      :deletemethod="delet"
-      :editmethod="edit"
-      :accessmethod="access"
-    />
 
     <Modal v-show="isModalVisible" title="Projeto" @close="modal(false)">
       <template v-slot:content>
+
         <div class="form-group">
           <label>Título da atividade</label>
           <input
-            type="text"
-            class="form-control"
-            v-model="formData.name"
-            required
+              type="text"
+              class="form-control"
+              v-model="formData.name"
+              required
           />
         </div>
 
         <div class="form-group">
           <label>Descrição</label>
           <input
-            type="text"
-            class="form-control"
-            v-model="formData.description"
+              type="text"
+              class="form-control"
+              v-model="formData.description"
           />
         </div>
 
@@ -52,7 +89,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapState} from "vuex";
 import TableComponent from "@/components/widgets/TableComponent.vue";
 import Modal from "@/components/template/Modal";
 
@@ -61,7 +98,7 @@ import Modal from "@/components/template/Modal";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Projects",
-  components: { TableComponent, Modal /* PaginateTable */ },
+  components: {TableComponent, Modal /* PaginateTable */},
   data: () => ({
     isLoading: false,
     isModalVisible: false,
@@ -96,6 +133,10 @@ export default {
       "updateProject",
     ]),
 
+    modal(type) {
+      this.isModalVisible = type;
+    },
+
     edit(item) {
       this.modal(true);
       this.formData.name = item.name;
@@ -105,9 +146,9 @@ export default {
 
     delet(item) {
       if (
-        confirm(
-          `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`
-        )
+          confirm(
+              `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`
+          )
       ) {
         this.deleteProject(item.id).then(() => {
           this.clearForm();
@@ -119,11 +160,12 @@ export default {
     access(item) {
       return this.$router.push({
         name: "kanban.project",
-        params: { projectid: item.id },
+        params: {projectid: item.id},
       });
     },
 
     processaForm() {
+
       if (!this.projectId) {
         this.storeProject(this.formData).then((res) => {
           this.isModalVisible = false;
@@ -136,6 +178,7 @@ export default {
         this.isModalVisible = false;
         this.clearForm();
       });
+
       this.isModalVisible = open;
       if (!open) this.clearForm();
     },

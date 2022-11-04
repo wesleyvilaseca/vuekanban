@@ -29,14 +29,7 @@ class BoardService
 
     public function store($request)
     {
-        $validate = Validator::make($request->all(), [
-            'title'      => ['required'],
-            'project_id' => ['required'],
-        ]);
-
-        if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
-
-        return $this->repository->store($request->all());
+        return $this->repository->store($request);
     }
 
     public function delete(int $id)

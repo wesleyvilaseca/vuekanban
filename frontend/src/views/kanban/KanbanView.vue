@@ -1,18 +1,24 @@
 <template>
   <div>
-    <div class="top">
-      <button
-        class="btn btn-sm btn-outline-info mr-2"
-        @click.prevent="modalCard(true)"
-      >
-        Criar atividade
-      </button>
-      <button
-        class="btn btn-sm btn-outline-dark"
-        @click.prevent="modalBoard(true)"
-      >
-        Criar board
-      </button>
+    <div class="top" style="margin-top: 6px; margin-bottom: 15px;">
+      <div class="item">
+        <h1 class="tituloGeral">{{ getProjectAtual().name }}</h1>
+        <p class="descGeral">{{ getProjectAtual().description }}</p>
+      </div>
+      <div class="item" style="text-align: right">
+        <button
+            class="btnAtividade btn btn-sm btn-outline-info mr-2"
+            @click.prevent="modalCard(true)"
+        >
+          Criar atividade
+        </button>
+        <button
+            class="btnBoard btn btn-sm btn-outline-dark"
+            @click.prevent="modalBoard(true)"
+        >
+          Criar board
+        </button>
+      </div>
     </div>
 
     <div class="row flex-row flex-sm-nowrap py-3">
@@ -22,13 +28,11 @@
         :key="index"
       >
         <div class="card bg-light">
-          <div class="text-right float">
-            <span class="btn btn-sm btn-outline-danger rounded-circle">
-              <i class="fas fa-trash"></i>
-            </span>
-          </div>
-          <div class="card-body card-body-atv">
-            <h2 class="lane-title">{{ board.title }}</h2>
+          <span class="btnDeleta btn btn-sm btn-outline-danger rounded-circle">
+            <i class="fas fa-trash"></i>
+          </span>
+          <div class="card-body card-body-atv cardKan">
+            <h2 class="lane-title tituloProjeto">{{ board.title }}</h2>
             <Container
               group-name="trello"
               @drag-start="handleDragStart(index, $event)"
@@ -37,10 +41,8 @@
             >
               <Draggable v-for="(card, index) in board.cards" :key="index">
                 <CardComponent class="mt-2" :title="card.title" :subtitle="''">
-                  <template v-slot:body> {{ card.description }} </template>
-                  <template v-slot:footer>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                  <template v-slot:body>
+                    {{ card.description }}
                   </template>
                 </CardComponent>
               </Draggable>
@@ -140,6 +142,11 @@ export default {
   }),
   methods: {
     ...mapActions(["getBoard", "updateCard", "createAtv", "storeBoard"]),
+
+    getProjectAtual() {
+      return this.projects.filter(item => item.id == this.$route.params.projectid)[0]
+    },
+
     modalCard(open) {
       this.isModalCardVisible = open;
       if (!open) this.clearCard();
@@ -246,6 +253,8 @@ export default {
   computed: {
     ...mapState({
       boards: (state) => state.kanban.board,
+      projects: (state) => state.projects.projects,
+
     }),
   },
   mounted() {
