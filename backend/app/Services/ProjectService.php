@@ -67,7 +67,7 @@ class ProjectService
 
         $has_boards = $this->boardService->getBoardsByProjectId($project->id);
 
-        if ($has_boards) {
+        if ($has_boards->isNotEmpty()) {
             $res = $this->boardService->deleteByProjectId($project->id);
             if (!$res) return response()->json(['error' => 'erro ao tentar apagar o projeto'], 400);
         }
