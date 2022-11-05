@@ -40,11 +40,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
-        $this->app->bind(OptionRepositoryInterface::class, OptionRepository::class);
-        $this->app->bind(OptionValueDescriptionRepositoryInterface::class, OptionValueDescriptionRepository::class);
-        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-        $this->app->bind(ProductOptionRepositoryInterface::class, ProductOptionRepository::class);
         $this->app->bind(BoardRepositoryInterface::class, BoardRepository::class);
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(CardRepositoryInterface::class, CardRepository::class);

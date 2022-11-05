@@ -10,11 +10,13 @@ class BoardService
 
     private $repository;
     protected $cardService;
+    protected $projectService;
 
-    public function __construct(BoardRepositoryInterface $repository, CardService $cardService)
+    public function __construct(BoardRepositoryInterface $repository, CardService $cardService, ProjectService $projectService)
     {
         $this->repository = $repository;
         $this->cardService = $cardService;
+        $this->projectService = $projectService;
     }
 
     public function getById(int $id)
@@ -27,9 +29,15 @@ class BoardService
         return $this->repository->getBoardsByProjectId($id);
     }
 
-    public function store($request)
+    public function store(array $data)
     {
-        return $this->repository->store($request);
+        $project = $this->projectService->get($data['project_id']);
+        if (!$project) return response()->json(['error' => 'Projeto inexistente'], 400);
+
+        $res = $this->repository->store($data);
+        if (!$res) return response()->json(['error' => 'erro ao criar o board'], 400);
+
+        return response()->json(['board criado com sucesso'], 200);
     }
 
     public function delete(int $id)

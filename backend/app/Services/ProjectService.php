@@ -66,8 +66,7 @@ class ProjectService
         if (!$project) return response()->json(['error' => 'projeto não localizado'], 400);
 
         $has_boards = $this->boardService->getBoardsByProjectId($project->id);
-
-        if ($has_boards) {
+        if ($has_boards->isNotEmpty()) {
             $res = $this->boardService->deleteByProjectId($project->id);
             if (!$res) return response()->json(['error' => 'erro ao tentar apagar o projeto'], 400);
         }
