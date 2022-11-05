@@ -2,19 +2,21 @@
 
 namespace App\Services;
 
+use App\Models\Project;
 use App\Repositories\Contracts\BoardRepositoryInterface;
-use Illuminate\Support\Facades\Validator;
 
 class BoardService
 {
 
     private $repository;
     protected $cardService;
+    /* protected $projectService;*/
 
-    public function __construct(BoardRepositoryInterface $repository, CardService $cardService)
+    public function __construct(BoardRepositoryInterface $repository, CardService $cardService/*,  ProjectService $projectService*/)
     {
         $this->repository = $repository;
         $this->cardService = $cardService;
+        /*$this->projectService = $projectService;*/
     }
 
     public function getById(int $id)
@@ -29,6 +31,12 @@ class BoardService
 
     public function store($request)
     {
+        $project_exist = Project::find($request['project_id']);
+        // for some reason this service wont work
+        // $project_exist = $this->projectService->get($request['project_id']);
+
+        if (!$project_exist) return response()->json(['error' => 'projeto não existe'], 400);
+
         return $this->repository->store($request);
     }
 

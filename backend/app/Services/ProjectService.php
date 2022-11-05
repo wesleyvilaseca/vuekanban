@@ -10,7 +10,7 @@ class ProjectService
 {
 
     private $repository;
-    private $boardService;
+    protected $boardService;
 
     public function __construct(ProjectRepositoryInterface $repository, BoardService $boardService)
     {
