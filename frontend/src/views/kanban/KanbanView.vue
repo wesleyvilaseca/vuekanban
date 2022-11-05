@@ -249,22 +249,30 @@ export default {
         index,
       };
     },
+
+    inicialeBord() {
+      if(this.projectId === "" || this.projectId !== this.$route.params.projectid) {
+        this.projectId = this.$route.params.projectid;
+        console.log(this.projectId)
+        this.getBoard(this.projectId).catch((err) => {
+          // this.Toast.fire("Ocorreu um erro ao listar os produtos.", "", "error");
+          console.log("error", err);
+        });
+      }
+    }
   },
   computed: {
     ...mapState({
       boards: (state) => state.kanban.board,
       projects: (state) => state.projects.projects,
-
     }),
   },
-  mounted() {
-    console.log();
-    this.projectId = this.$route.params.projectid;
-    this.getBoard(this.projectId).catch((err) => {
-      // this.Toast.fire("Ocorreu um erro ao listar os produtos.", "", "error");
-      console.log("error", err);
-    });
+  updated() {
+    this.inicialeBord();
   },
+  created() {
+    this.inicialeBord();
+  }
 };
 </script>
 
