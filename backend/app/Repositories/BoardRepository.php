@@ -39,4 +39,9 @@ class BoardRepository implements BoardRepositoryInterface
     {
         return $this->entity->find($id);
     }
+
+    public function update(int $id, array $data)
+    {
+        return $this->entity->where('id', $id)->update($data);
+    }
 }

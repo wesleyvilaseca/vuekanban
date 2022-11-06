@@ -10,4 +10,5 @@ interface BoardRepositoryInterface
     public function delete(int $id);
     public function deleteByProjectId(int $id);
     public function getById(int $id);
+    public function update(int $id, array $data);
 }

@@ -19,14 +19,23 @@ class CardController extends Controller
 
     public function store(Request $request)
     {
+        /**
+         * to create a card dont need a board id cause, aways the card gona be inserted in a backlog board
+         */
         $validate = Validator::make($request->all(), [
             'title'      => ['required'],
-            'project_id' => ['required'],
+            'description' => ['nullable'],
+            'project_id' => ['required']
         ]);
 
         if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
 
         return $this->cardService->store($request->all());
+    }
+
+    public function delete($id)
+    {
+        return $this->cardService->delete($id);
     }
 
     public function update(StoreUpdateCard $request, $id)

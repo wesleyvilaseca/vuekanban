@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Board;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CardFactory extends Factory
@@ -14,7 +15,10 @@ class CardFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'board_id' => Board::factory(),
+            'index' => 0,
+            'title' => 'factory title card',
+            'description' => 'factory desc card'
         ];
     }
 }
