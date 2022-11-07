@@ -14,6 +14,7 @@
 <!--ts-->
 * [Instalação](#instalação)
 * [Bando de dados](#banco-de-dados)
+* [Rodando o projeto](#rodando-o-projeto)
 * [Acessos](#acessos)
 <!--te-->
 
