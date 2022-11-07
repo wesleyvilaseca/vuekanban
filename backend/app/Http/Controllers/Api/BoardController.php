@@ -59,8 +59,4 @@ class BoardController extends Controller
     {
         return $this->boardService->delete($id);
     }
-
-    public function update(StoreUpdateBoard $request, $id) {
-        return $this->boardService->update((int) $id, $request->all());
-    }
 }
