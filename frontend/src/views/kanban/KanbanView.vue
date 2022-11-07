@@ -28,7 +28,7 @@
         :key="index"
       >
         <div class="card bg-light">
-          <span @click="deletBoard(board)" class="btnDeleta btn btn-sm btn-outline-danger rounded-circle">
+          <span v-if="index !== 0" @click="deletBoard(board)" class="btnDeleta btn btn-sm btn-outline-danger rounded-circle">
             <i class="fas fa-trash"></i>
           </span>
 
