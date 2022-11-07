@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateBoard;
 use App\Http\Resources\BoardResource;
 use Illuminate\Http\Request;
 use App\Services\BoardService;
@@ -40,5 +41,14 @@ class BoardController extends Controller
         }
 
         return BoardResource::collection($this->boardService->getBoardsByProjectId($id));
+    }
+
+    public function delete($id)
+    {
+        return $this->boardService->delete($id);
+    }
+
+    public function update(StoreUpdateBoard $request, $id) {
+        return $this->boardService->update((int) $id, $request->all());
     }
 }

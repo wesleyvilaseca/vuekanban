@@ -33,4 +33,9 @@ class CardController extends Controller
     {
         return $this->cardService->updateCard($id, $request->all());
     }
+
+    public function delete($id)
+    {
+        return $this->cardService->delete($id);
+    }
 }

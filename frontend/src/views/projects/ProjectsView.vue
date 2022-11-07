@@ -92,6 +92,7 @@
 import {mapActions, mapState} from "vuex";
 import TableComponent from "@/components/widgets/TableComponent.vue";
 import Modal from "@/components/template/Modal";
+import Swal from "sweetalert2";
 
 // import PaginateTable from "@/components/Widgets/PaginateTable.vue";
 
@@ -145,16 +146,25 @@ export default {
     },
 
     delet(item) {
-      if (
-          confirm(
-              `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`
-          )
-      ) {
-        this.deleteProject(item.id).then(() => {
-          this.clearForm();
-          // this.modal(false);
-        });
-      }
+
+      // Verifica se deseja realmente deletar
+      Swal.fire({
+        title: `Caso você confirme, todo o projeto ${item.name} vai ser apagado, tem certeza que deseja apagar o projeto?`,
+        icon: "warning",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#527c4e',
+        denyButtonColor: '#434642',
+        confirmButtonText: 'Sim, desejo',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteProject(item.id).then(() => {
+            this.clearForm();
+            // this.modal(false);
+          });
+        }
+      })
     },
 
     access(item) {

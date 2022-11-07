@@ -36,11 +36,14 @@ Route::group([
          */
         Route::post('/board', [BoardController::class, 'store']);
         Route::get('/board/{id}', [BoardController::class, 'getByProject']);
+        Route::post('/board/{id}/edit', [BoardController::class, 'update']);
+        Route::post('/board/{id}/delete', [BoardController::class, 'delete']);
 
         /**
          * cards
          */
         Route::post('/card', [CardController::class, 'store']);
         Route::post('/card/{id}/edit', [CardController::class, 'update']);
+        Route::post('/card/{id}/delete', [CardController::class, 'delete']);
     });
 });

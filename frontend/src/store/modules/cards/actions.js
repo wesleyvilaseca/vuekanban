@@ -26,6 +26,21 @@ const actions = {
                 this.Toast.fire(error.message, "", "error");
             })
     },
+
+    // Deleta um produto
+    async deleteCard({ commit }, card) {
+        return await HttpAuth.post(`/card/${card.id}/delete`)
+            .then((res) => {
+                commit('');
+                // eslint-disable-next-line no-undef
+                Toast.fire(`A atividade foi deletada com sucesso.`, "", "success");
+                return true;
+            })
+            .catch(error => {
+                // eslint-disable-next-line no-undef
+                Toast.fire(error.message, "", "error");
+            })
+    },
 }
 
 export default actions;

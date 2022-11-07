@@ -45,6 +45,17 @@ class BoardService
         return $this->repository->delete($id);
     }
 
+    public function update(int $id, array $data)
+    {
+        $board = $this->getById($id);
+        if (!$board) return response()->json(['error' => 'board não localizado', 'data' => $id], 400);
+
+        $res = $this->repository->update($id, $data);
+        if (!$res) return response()->json(['error' => 'erro ao editar o board'], 400);
+
+        return response()->json(['msg' => 'board editado com sucesso'], 200);
+    }
+
     public function deleteByProjectId(int $id)
     {
         $has_boards = $this->getBoardsByProjectId($id);

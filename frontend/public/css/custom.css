@@ -51,6 +51,20 @@
     opacity: 1;
 }
 
+
+.btnEdit {
+    width: 30px;
+    position: absolute;
+    right: 28px;
+    border: none !important;
+    top: 5px;
+    opacity: 0.4;
+}
+
+.btnEdit:hover {
+    opacity: 1;
+}
+
 .tituloProjeto {
     font-size: 1.5em;
     text-transform: uppercase;
