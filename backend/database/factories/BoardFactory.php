@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Board;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BoardFactory extends Factory
@@ -16,7 +17,8 @@ class BoardFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => 'factory board',
+            'project_id' => Project::factory()
         ];
     }
 }

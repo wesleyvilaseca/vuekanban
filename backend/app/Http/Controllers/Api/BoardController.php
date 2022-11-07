@@ -43,6 +43,18 @@ class BoardController extends Controller
         return BoardResource::collection($this->boardService->getBoardsByProjectId($id));
     }
 
+    public function update(Request $request, $id)
+    {
+        $validate = Validator::make($request->all(), [
+            'title'      => ['required'],
+            'project_id' => ['required'],
+        ]);
+
+        if ($validate->fails()) return response()->json(['error' => $validate->errors()], 400);
+
+        return $this->boardService->update($id, $request->all());
+    }
+
     public function delete($id)
     {
         return $this->boardService->delete($id);
